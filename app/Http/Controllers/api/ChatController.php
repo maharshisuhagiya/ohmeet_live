@@ -223,6 +223,7 @@ class ChatController extends BaseController
     public function AutoSendMessage(Request $request)
     {
         set_time_limit(0);
+        $chat = '';
         $setting = Setting::first();
         $users = User::where('estatus',1)->where('role',4)->inRandomOrder()->limit($setting->number_of_users)->get();
         foreach($users as $user){

@@ -117,6 +117,7 @@ function host_user_page_tabs(tab_type='',is_clearState=false) {
         "destroy": true,
         "processing": true,
         "serverSide": true,
+        "lengthMenu": [10, 25, 50, 100, 500, 1000],
         'stateSave': function(){
             if(is_clearState){
                 return false;

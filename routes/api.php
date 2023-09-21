@@ -49,6 +49,15 @@ Route::get('get_all_unread_msg_count', [ChatController::class, 'GetAllUnreadMess
 Route::post('create-payment-information', [PaymentController::class, 'createPaymentInformation']);
 Route::get('get-payment-information', [PaymentController::class, 'getPaymentInformation']);
 
+Route::post('gameupi', [PaymentController::class, 'gameupi']);
+Route::post('create-gu-payment-information', [PaymentController::class, 'createGuPaymentInformation']);
+Route::get('get-gu-payment-information', [PaymentController::class, 'getGuPaymentInformation']);
+
+Route::post('create-stp-payment-information', [PaymentController::class, 'createStpPaymentInformation']);
+Route::get('get-stp-payment-information', [PaymentController::class, 'getStpPaymentInformation']);
+
+Route::get('payment-history', [PaymentController::class, 'paymentHistory']);
+
 Route::group(['middleware' => 'auth:api'], function () {
 
 });

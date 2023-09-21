@@ -16,12 +16,16 @@ class Kernel extends ConsoleKernel
 
     protected $commands = [
         Commands\CallNotificationCron::class,
+        Commands\AutoArtisanRunCron::class,
+        Commands\ChatRecordDeleteCron::class,
     ];
 
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('callnotification:cron')->everyMinute();
+        // $schedule->command('callnotification:cron')->everyMinute();
+        $schedule->command('AutoArtisanRun:cron')->dailyAt('05:00');
+        $schedule->command('ChatRecordDeleteCron:cron')->dailyAt('05:00');
     }
 
     /**

@@ -346,7 +346,7 @@
     ***********************************-->
     <div class="footer">
         <div class="copyright">
-            <p>Copyright &copy; Designed & Developed by <a href="#">Web Vedant Technology</a> 2022</p>
+            <p>Copyright &copy; Designed & Developed by <a href="#">Mishi Technology</a> 2023</p>
         </div>
     </div>
     <!--**********************************

@@ -22,9 +22,9 @@
                                     <div class="card-body">
                                         <h3 class="card-title text-white">Today Orders</h3>
                                         <div class="d-inline-block">
-                                            <h2 class="text-white"> 500 </h2>
+                                            <h2 class="text-white"> {{ $todayPurchaseCoin }} </h2>
                                             <p class="text-white mb-0">Yesterday Orders</p>
-                                            <h4 class="text-white mb-0"> 55 </h4>
+                                            <h4 class="text-white mb-0"> {{ $yesterdayPurchaseCoin }} </h4>
                                         </div>
                                         <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
                                     </div>
@@ -35,15 +35,15 @@
                                     <div class="card-body">
                                         <h3 class="card-title text-white">Today Sales</h3>
                                         <div class="d-inline-block">
-                                            <h2 class="text-white">$ 55 </h2>
-                                            <p class="text-white mb-0">Yester Sales</p>
-                                            <h4 class="text-white mb-0">$ 55 </h4>
+                                            <h2 class="text-white">₹ {{ $todayAmount }} </h2>
+                                            <p class="text-white mb-0">Yesterday Sales</p>
+                                            <h4 class="text-white mb-0">₹ {{ $yesterdayAmount }} </h4>
                                         </div>
                                         <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
+                            {{-- <div class="col-lg-3 col-sm-6">
                                 <div class="card gradient-3">
                                     <div class="card-body">
                                         <h3 class="card-title text-white">Today Inquiry</h3>
@@ -55,15 +55,15 @@
                                         <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-lg-3 col-sm-6">
                                 <div class="card gradient-4">
                                     <div class="card-body">
-                                        <h3 class="card-title text-white">New Users</h3>
+                                        <h3 class="card-title text-white">Today Users</h3>
                                         <div class="d-inline-block">
-                                            <h2 class="text-white"> 555 </h2>
-                                            <p class="text-white mb-0"> All Users</p>
-                                            <h4 class="text-white mb-0"> 2222 </h4>
+                                            <h2 class="text-white"> {{ $todayUser }} </h2>
+                                            <p class="text-white mb-0"> Yesterday Users</p>
+                                            <h4 class="text-white mb-0"> {{ $yesterdayUser }} </h4>
                                         </div>
                                         <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                                     </div>

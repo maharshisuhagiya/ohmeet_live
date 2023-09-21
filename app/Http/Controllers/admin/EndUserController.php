@@ -22,8 +22,8 @@ class EndUserController extends Controller
 
     public function index(){
         $action = "list";
-        $users = User::where('role',3)->get();
-        return view('admin.end_users.list',compact('users','action'))->with('page',$this->page);
+        // $users = User::where('role',3)->get();
+        return view('admin.end_users.list',compact('action'))->with('page',$this->page);
     }
 
     public function create(){
@@ -452,8 +452,8 @@ class EndUserController extends Controller
 
     public function user_index(){
         $action = "list";
-        $users = User::where('role',3)->get();
-        return view('admin.users_list.list',compact('users','action'))->with('page',$this->page);
+        // $users = User::where('role',3)->get();
+        return view('admin.users_list.list',compact('action'))->with('page',$this->page);
     }
 
     public function alluserlist(Request $request){

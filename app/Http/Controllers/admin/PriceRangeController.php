@@ -231,8 +231,10 @@ class PriceRangeController extends Controller
             }
             else {
                 $search = $request->input('search.value');
-                $priceranges =  PurchaseCoin::with('user')->where(function($query) use($search){
-                      $query->where('id','LIKE',"%{$search}%")
+                $priceranges =  PurchaseCoin::whereHas('user', function($q) use($search){
+                            $q->where('email','LIKE',"%{$search}%");
+                      })->orWhere(function($query) use($search){
+                      $query->orWhere('id','LIKE',"%{$search}%")
                             ->orWhere('total_amount', 'LIKE',"%{$search}%")
                             ->orWhere('coin', 'LIKE',"%{$search}%")
                             ->orWhere('created_at', 'LIKE',"%{$search}%");
@@ -242,8 +244,10 @@ class PriceRangeController extends Controller
                       ->orderBy($order,$dir)
                       ->get();
 
-                $totalFiltered = PurchaseCoin::with('user')->where(function($query) use($search){
-                    $query->where('id','LIKE',"%{$search}%")
+                $totalFiltered = PurchaseCoin::whereHas('user', function($q) use($search){
+                        $q->where('email','LIKE',"%{$search}%");
+                    })->orWhere(function($query) use($search){
+                    $query->orWhere('id','LIKE',"%{$search}%")
                           ->orWhere('total_amount', 'LIKE',"%{$search}%")
                           ->orWhere('coin', 'LIKE',"%{$search}%")
                           ->orWhere('created_at', 'LIKE',"%{$search}%");
@@ -262,11 +266,13 @@ class PriceRangeController extends Controller
                     $price = '<span><i class="fa fa-inr" aria-hidden="true"></i> ' .$pricerange->total_amount .'</span>';
                     $coin = '<span><i class="fa fa-coins" aria-hidden="true"></i> ' .$pricerange->coin .'</span>';
                 
+                    // $nestedData['id'] = $pricerange->user ? $pricerange->user->id ?? '-' : '-';
                     $nestedData['email'] = $pricerange->user ? $pricerange->user->email ?? '-' : '-';
                     /*$nestedData['amount'] = $price;
                     $nestedData['coin'] = $coin;*/
-                    $nestedData['amount'] = $pricerange->user ? $pricerange->user->device_id ?? '-' : '-';
-                    $nestedData['coin'] = $price .$coin;
+                    $nestedData['device_id'] = $pricerange->user ? $pricerange->user->device_id ?? '-' : '-';
+                    $nestedData['price'] = $price;
+                    $nestedData['coin'] = $coin;
                     $nestedData['payment_type'] = $pricerange->payment_type;
                     $nestedData['transaction_id'] = $pricerange->payment_transaction_id;
                     $nestedData['created_at'] = date('d-m-Y h:i:s:A', strtotime($pricerange->created_at));

@@ -24,6 +24,7 @@
                                 <tr>
                                     <th>No</th>                                   
                                     <th>Email</th>
+                                    <th>Device Id</th>                                    
                                     <th>Amount</th>
                                     <th>Coin</th>
                                     <th>Payment Type</th>
@@ -36,6 +37,7 @@
                                 <tr>
                                     <th>No</th>                                   
                                     <th>Email</th>
+                                    <th>Device Id</th>                                    
                                     <th>Amount</th>
                                     <th>Coin</th>
                                     <th>Payment Type</th>
@@ -106,7 +108,8 @@
                     }
                 },
                 {data: 'email', name: 'email', class: "text-center multirow", orderable: false},
-                {data: 'amount', name: 'amount', class: "text-center multirow", orderable: false},
+                {data: 'device_id', name: 'device_id', class: "text-center multirow", orderable: false},
+                {data: 'price', name: 'price', class: "text-center multirow", orderable: false},
                 {data: 'coin', name: 'coin', class: "text-center multirow", orderable: false},
                 {data: 'payment_type', name: 'payment_type', class: "text-center multirow", orderable: false},
                 {data: 'transaction_id', name: 'transaction_id', class: "text-left multirow", orderable: false},
