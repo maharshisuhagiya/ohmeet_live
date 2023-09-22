@@ -10,6 +10,7 @@ use App\Models\PriceRange;
 use App\Models\Subscription;
 use App\Models\PurchaseCoin;
 use App\Models\Agency;
+use App\Models\CallingHistory;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
@@ -138,6 +139,79 @@ class UserController extends BaseController
         $user->save();
 
         return $this->sendResponseWithData($user,"User coin updated successfully.");
+    }
+
+    public function updateCallingHistory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'coin' => 'required',
+            'g_coin' => 'required',
+            'opponent_user_id' => 'required',
+            'call_duration' => 'required',
+            'status' => 'required|in:1,2,3',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError($validator->errors(), "Validation Errors", []);
+        }
+
+        $user = User::where('id', $request->user_id)->where('role', 5)->first();
+        if(!$user)
+        {
+            return $this->sendError("User Not Exist", "Not Found Error", []);
+        }
+
+        if($user->estatus != 1){
+            return $this->sendError("Your account is de-activated by admin.", "Account De-active", []);
+        }
+
+        if(isset($request->status) && ($request->status == 1))
+        {
+            $user->coin = (int)$user->coin + (int)$request->coin;
+            $user->g_coin = (int)$user->g_coin + (int)$request->g_coin;
+            $user->save();
+        }
+
+        $callingHistory = CallingHistory::create([
+            'user_id' => $request->user_id,
+            'opponent_user_id' => $request->opponent_user_id,
+            'call_duration' => $request->call_duration,
+            'status' => $request->status,
+            'coin' => $request->coin,
+            'g_coin' => $request->g_coin,
+            'sum_of_coin' => (int)$request->coin + (int)$request->g_coin,
+            'total_coin' => $user->coin,
+            'total_g_coin' => $user->g_coin,
+        ]);
+
+        return $this->sendResponseWithData($user,"User coin updated successfully.");
+    }
+
+    public function getCallingHistory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'date' => 'nullable|date',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError($validator->errors(), "Validation Errors", []);
+        }
+
+        $user = User::where('id', $request->user_id)->where('role', 5)->first();
+        if(!$user)
+        {
+            return $this->sendError("User Not Exist", "Not Found Error", []);
+        }
+
+        $history = CallingHistory::where('user_id', $request->user_id)
+            ->when($request->date, function($q) use($request) {
+                $q->whereDate('created_at', $request->date);
+            })
+            ->get();
+
+        return $this->sendResponseWithData($history, "Calling history retrieved successfully.");
     }
 
     public function getAllUser(Request $request)

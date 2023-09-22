@@ -32,6 +32,8 @@ Route::get('getAgency',[UserController::class,'getAgency']);
 Route::post('update_token',[AuthController::class,'update_token']);
 Route::post('on_off_status',[UserController::class,'onOffStatus']);
 Route::post('coin_update',[UserController::class,'coinUpdate']);
+Route::post('update-calling-history',[UserController::class,'updateCallingHistory']);
+Route::get('get-calling-history', [UserController::class, 'getCallingHistory']);
 Route::post('getAllUser',[UserController::class,'getAllUser']);
 
 Route::post('update_subscription',[UserController::class,'update_subscription']);
