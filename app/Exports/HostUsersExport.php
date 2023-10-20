@@ -40,7 +40,7 @@ class HostUsersExport implements FromCollection, withHeadings
             $estatus = 2;
         }
 
-        $users = User::select('id', 'first_name', 'last_name', 'email', 'mobile_no', 'coin', 'agency_id as agency_name')->whereHas('agency')->whereIn('role', ['5'])->WhereNotNull('first_name');
+        $users = User::select('id', 'first_name', 'last_name', 'email', 'mobile_no', 'coin', 'g_coin', 'agency_id as agency_name')->whereHas('agency')->whereIn('role', ['5'])->WhereNotNull('first_name');
         if (isset($estatus)){
             $users = $users->where('estatus', $estatus);
         }
@@ -55,11 +55,13 @@ class HostUsersExport implements FromCollection, withHeadings
             $agency_name = $agency[$user->agency_name];
             unset($usersData[$key]['agency_name']);
             $usersData[$key]['agency_name'] = $agency_name;
+            $usersData[$key]['coin'] = (int)$user->coin + (int)$user->g_coin;
+            unset($usersData[$key]['g_coin']);
         }
 
         if($coin_update)
         {
-            $users->update(['coin' => 0]);
+            $users->update(['coin' => 0, 'g_coin' => 0]);
         }
 
         return $usersData;

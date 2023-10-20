@@ -189,7 +189,7 @@ class HostUserController extends Controller
                     $nestedData['contact_info'] = $contact_info;
                     $nestedData['login_info'] = $other_info;
                     $nestedData['user'] = 'Host User';
-                    $nestedData['coin'] = $user->coin;
+                    $nestedData['coin'] = $user->coin + $user->g_coin;
                     $nestedData['estatus'] = $estatus;
                     $nestedData['created_at'] = date('d-m-Y h:i A', strtotime($user->created_at));
                     $nestedData['action'] = $action;
