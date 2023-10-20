@@ -38,6 +38,8 @@ Route::post('getAllUser',[UserController::class,'getAllUser']);
 
 Route::post('update_subscription',[UserController::class,'update_subscription']);
 Route::post('purchase_coin',[UserController::class,'purchase_coin']);
+Route::get('agency-coin-history',[UserController::class,'AgencyCoinHistory']);
+Route::get('user-coin-history',[UserController::class,'UserCoinHistory']);
 
 Route::get('SendCallNotification',[ChatController::class,'SendCallNotification']);
 Route::post('AutoSendMessage',[ChatController::class,'AutoSendMessage']);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\ProjectPage;
+use App\Models\Agency;
 use App\Exports\HostUsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -189,7 +190,8 @@ class HostUserController extends Controller
                     $nestedData['contact_info'] = $contact_info;
                     $nestedData['login_info'] = $other_info;
                     $nestedData['user'] = 'Host User';
-                    $nestedData['coin'] = $user->coin + $user->g_coin;
+                    $nestedData['coin'] = $user->coin;
+                    $nestedData['g_coin'] = $user->g_coin;
                     $nestedData['estatus'] = $estatus;
                     $nestedData['created_at'] = date('d-m-Y h:i A', strtotime($user->created_at));
                     $nestedData['action'] = $action;
@@ -228,6 +230,13 @@ class HostUserController extends Controller
         $coin_update = isset($request->coin_update) ? 1 : 0;
         $tab_type = $request->tab_type_export;
         $agency_id = $request->agency_search_export;
-        return Excel::download(new HostUsersExport($tab_type, $agency_id, $coin_update), 'host_users.xlsx');
+        $agency_name = 'host_users.xlsx';
+        $agency = NULL;
+        if($agency_id)
+        {
+            $agency = Agency::where('id', $agency_id)->first();
+            $agency_name = $agency ? $agency->agency_name.'.xlsx' : $agency_name;
+        }
+        return Excel::download(new HostUsersExport($tab_type, $agency_id, $coin_update, $agency), $agency_name);
     }
 }

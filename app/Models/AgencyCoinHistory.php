@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Agency extends Model
+class AgencyCoinHistory extends Model
 {
     use HasFactory;
 
-    protected $table = "agencies";
+    protected $table = "agency_coin_histories";
 
-    protected $fillable = ['agency_name', 'count'];
+    protected $fillable = ['agency_id', 'coin', 'g_coin'];
 }

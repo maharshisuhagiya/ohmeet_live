@@ -78,6 +78,7 @@
                                     <th>Other Info</th>
                                     <th>User</th>
                                     <th>Coin</th>
+                                    <th>G Coin</th>
                                     <th>User Status</th>
                                     <th>Registration Date</th>
                                     {{-- <th>Other</th> --}}
@@ -91,6 +92,7 @@
                                     <th>Other Info</th>
                                     <th>User</th>
                                     <th>Coin</th>
+                                    <th>G Coin</th>
                                     <th>User Status</th>
                                     <th>Registration Date</th>
                                     {{-- <th>Other</th> --}}
@@ -172,7 +174,7 @@ function host_user_page_tabs(tab_type='',is_clearState=false) {
             { "width": "50px", "targets": 5 },
             { "width": "120px", "targets": 6 },
             { "width": "120px", "targets": 7 },
-            // { "width": "180px", "targets": 7 },
+            { "width": "180px", "targets": 8 },
         ],
         "columns": [
             {data: 'id', name: 'id', class: "text-center", orderable: false,
@@ -185,6 +187,7 @@ function host_user_page_tabs(tab_type='',is_clearState=false) {
             {data: 'login_info', name: 'login_info', class: "text-left multirow", orderable: false},
             {data: 'user', name: 'user', class: "text-left multirow", orderable: false},
             {data: 'coin', name: 'coin', class: "text-left multirow", orderable: false},
+            {data: 'g_coin', name: 'g_coin', class: "text-left multirow", orderable: false},
             {data: 'estatus', name: 'estatus', orderable: false, searchable: false, class: "text-center"},
             {data: 'created_at', name: 'created_at', searchable: false, class: "text-left"},
             // {data: 'action', name: 'action', orderable: false, searchable: false, class: "text-center"},

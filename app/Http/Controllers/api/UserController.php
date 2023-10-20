@@ -11,6 +11,8 @@ use App\Models\Subscription;
 use App\Models\PurchaseCoin;
 use App\Models\Agency;
 use App\Models\CallingHistory;
+use App\Models\AgencyCoinHistory;
+use App\Models\UserCoinHistory;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
@@ -295,5 +297,15 @@ class UserController extends BaseController
         return $this->sendResponseWithData($package,"Purchase Package Successfully.");
     }
 
+    public function AgencyCoinHistory(Request $request)
+    {
+        $AgencyCoinHistory = AgencyCoinHistory::where('agency_id', $request->agency_id)->get();
+        return $this->sendResponseWithData($AgencyCoinHistory,"Agency Coin History Retrieved Successfully.");
+    }
 
+    public function UserCoinHistory(Request $request)
+    {
+        $UserCoinHistory = UserCoinHistory::where('user_id', $request->user_id)->get();
+        return $this->sendResponseWithData($UserCoinHistory,"User Coin History Retrieved Successfully.");
+    }
 }
