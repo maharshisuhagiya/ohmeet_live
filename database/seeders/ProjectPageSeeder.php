@@ -91,6 +91,17 @@ class ProjectPageSeeder extends Seeder
         ProjectPage::create([
             'id' => 8,
             'parent_menu' => 0,
+            'label' => 'Agency History',
+            'icon_class' => 'fa fa-file-text',
+            'route_url' => 'admin.agency-history.list',
+            'is_display_in_menu' => 0,
+            'inner_routes' => 'admin.agency-history.list',
+            'sr_no' => 3
+        ]);
+
+        ProjectPage::create([
+            'id' => 9,
+            'parent_menu' => 0,
             'label' => 'Coin Price',
             'route_url' => 'admin.pricerange.list',
             'is_display_in_menu' => 0,
@@ -100,7 +111,7 @@ class ProjectPageSeeder extends Seeder
         ]);
 
         ProjectPage::create([
-            'id' => 9,
+            'id' => 10,
             'parent_menu' => 0,
             'label' => 'Subscription Price',
             'route_url' => 'admin.subscription.list',
@@ -111,7 +122,7 @@ class ProjectPageSeeder extends Seeder
         ]);
 
         ProjectPage::create([
-            'id' => 10,
+            'id' => 11,
             'parent_menu' => 0,
             'label' => 'Message',
             'icon_class' => 'fa fa-file-text',
@@ -122,7 +133,7 @@ class ProjectPageSeeder extends Seeder
         ]);
 
         ProjectPage::create([
-            'id' => 11,
+            'id' => 12,
             'parent_menu' => 0,
             'label' => 'Purchase Coins',
             'icon_class' => 'fa fa-file-text',
@@ -133,7 +144,7 @@ class ProjectPageSeeder extends Seeder
         ]);
 
         ProjectPage::create([
-            'id' => 12,
+            'id' => 13,
             'parent_menu' => 0,
             'label' => 'Settings',
             'route_url' => 'admin.settings.list',

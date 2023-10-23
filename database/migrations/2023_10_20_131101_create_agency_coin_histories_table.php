@@ -18,6 +18,9 @@ return new class extends Migration
             $table->integer('agency_id')->default(0);
             $table->integer('coin')->default(0);
             $table->integer('g_coin')->default(0);
+            $table->integer('status')->default(0);
+            $table->string('excel_sheet')->default(0);
+            $table->text('remark')->default(0);
             $table->timestamps();
         });
     }

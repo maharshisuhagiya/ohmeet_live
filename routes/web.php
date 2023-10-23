@@ -54,6 +54,11 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','userpermission'],'as'=>'a
         Route::get('changeHostuserstatus/{id}',[\App\Http\Controllers\admin\HostUserController::class,'changeHostuserstatus'])->name('end_users.changeHostuserstatus');
         Route::post('export',[\App\Http\Controllers\admin\HostUserController::class,'export'])->name('end_users.export');
 
+        Route::get('agency-history',[\App\Http\Controllers\admin\AgencyHistoryController::class,'index'])->name('agency-history.list');
+        Route::post('addorupdateagencyhistory',[\App\Http\Controllers\admin\AgencyHistoryController::class,'addorupdateagencyhistory'])->name('agency-history.addorupdate');
+        Route::post('allAgencyHistorylist',[\App\Http\Controllers\admin\AgencyHistoryController::class,'allAgencyHistorylist'])->name('allAgencyHistorylist');
+        Route::get('agency-history/{id}/edit',[\App\Http\Controllers\admin\AgencyHistoryController::class,'editAgencyHistory'])->name('agency-history.edit');
+
         Route::get('languages',[\App\Http\Controllers\admin\LanguageController::class,'index'])->name('languages.list');
         Route::post('addorupdatelanguage',[\App\Http\Controllers\admin\LanguageController::class,'addorupdatelanguage'])->name('languages.addorupdate');
         Route::post('alllanguagelist',[\App\Http\Controllers\admin\LanguageController::class,'alllanguagelist'])->name('alllanguagelist');
