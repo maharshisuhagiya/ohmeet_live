@@ -70,7 +70,7 @@ class HostUsersExport implements FromCollection, withHeadings
             }
             else
             {
-                $total_coin = (int)$user->coin + (int)$user->g_coin;
+                $total_coin = $user->coin + $user->g_coin;
     
                 $amount = $total_coin;
                 if($agency) {
@@ -92,8 +92,8 @@ class HostUsersExport implements FromCollection, withHeadings
             $hostUser[] = $user_data;
 
             // coin
-            $agency_total_coin += (int)$user->coin;
-            $agency_total_g_coin += (int)$user->g_coin;
+            $agency_total_coin += $user->coin;
+            $agency_total_g_coin += $user->g_coin;
             $sum_of_coin += $total_coin;
             $sum_of_amount += $amount;
             
@@ -115,7 +115,42 @@ class HostUsersExport implements FromCollection, withHeadings
         $user_data['coin'] = '';
         $user_data['g_coin'] = 'Total';
         $user_data['total_coin'] = $sum_of_coin ?? '0';
-        $user_data['amount'] = $sum_of_amount ?? '0';
+        $amount_1 = $sum_of_amount ?? '0';
+        $user_data['amount'] = $amount_1;
+        $hostUser[] = $user_data;
+
+        $user_data['id'] = '';
+        $user_data['first_name'] = '';
+        $user_data['last_name'] = '';
+        $user_data['email'] = '';
+        $user_data['agency_name'] = '';
+        $user_data['coin'] = '';
+        $user_data['g_coin'] = 'Minute';
+        $user_data['total_coin'] = $sum_of_coin ? $sum_of_coin/100 : '0';
+        $user_data['amount'] = '';
+        $hostUser[] = $user_data;
+
+        $user_data['id'] = '';
+        $user_data['first_name'] = '';
+        $user_data['last_name'] = '';
+        $user_data['email'] = '';
+        $user_data['agency_name'] = '';
+        $user_data['coin'] = '';
+        $user_data['g_coin'] = 'Commission';
+        $user_data['total_coin'] = '';
+        $amount_2 = $sum_of_amount ? ($sum_of_amount * 15) / 100 : '0';
+        $user_data['amount'] = $amount_2;
+        $hostUser[] = $user_data;
+
+        $user_data['id'] = '';
+        $user_data['first_name'] = '';
+        $user_data['last_name'] = '';
+        $user_data['email'] = '';
+        $user_data['agency_name'] = '';
+        $user_data['coin'] = '';
+        $user_data['g_coin'] = 'Final Amount';
+        $user_data['total_coin'] = '';
+        $user_data['amount'] = $amount_1 + $amount_2;
         $hostUser[] = $user_data;
 
         if($coin_update)

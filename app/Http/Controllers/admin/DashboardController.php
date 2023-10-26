@@ -22,5 +22,13 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', compact('todayPurchaseCoin', 'yesterdayPurchaseCoin', 'todayAmount', 'yesterdayAmount', 'todayUser', 'yesterdayUser'));
     }
-  
+
+    public function dateWiseSearch(Request $request)
+    {
+        $date = $request->date ?? date('Y-m-d');
+        $data['todayPurchaseCoin'] = PurchaseCoin::whereDate('created_at', $date)->count();
+        $data['todayAmount'] = PurchaseCoin::whereDate('created_at', $date)->sum('total_amount');
+        $data['todayUser'] = User::whereDate('created_at', $date)->count();
+        return response()->json(['status' => '200', 'data' => $data]);
+    }
 }

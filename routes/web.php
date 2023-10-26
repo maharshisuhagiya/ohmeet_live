@@ -23,6 +23,7 @@ Route::get('admin/403_page',[\App\Http\Controllers\admin\AuthController::class,'
 
 Route::group(['prefix'=>'admin','middleware'=>['auth','userpermission'],'as'=>'admin.'],function () {
         Route::get('dashboard', [\App\Http\Controllers\admin\DashboardController::class, 'index'])->name('dashboard');
+        Route::post('date-wise-search', [\App\Http\Controllers\admin\DashboardController::class, 'dateWiseSearch'])->name('date-wise-search');
 
         Route::get('users',[\App\Http\Controllers\admin\UserController::class,'index'])->name('users.list');
         Route::post('addorupdateuser',[\App\Http\Controllers\admin\UserController::class,'addorupdateuser'])->name('users.addorupdate');

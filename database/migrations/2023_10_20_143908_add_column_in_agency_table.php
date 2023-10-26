@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('agencies', function (Blueprint $table) {
-            $table->integer('count')->default(0);
+            $table->decimal('count', 5, 2)->default(0);
         });
     }
 

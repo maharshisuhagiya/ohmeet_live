@@ -42,10 +42,10 @@ class User extends Authenticatable
     ];
 
     public function getProfilePicAttribute(){
-        if($this->attributes['role'] != 5)
+        if($this->attributes['role'] == 5 || $this->attributes['role'] == 3)
         {
             if($this->attributes['profile_pic'] != null){
-                return asset('images/profile_pic/'.$this->attributes['profile_pic']);
+                return $this->attributes['profile_pic'];
             }else{
                 return null;
             }
@@ -53,7 +53,7 @@ class User extends Authenticatable
         else
         {
             if($this->attributes['profile_pic'] != null){
-                return $this->attributes['profile_pic'];
+                return asset('images/profile_pic/'.$this->attributes['profile_pic']);
             }else{
                 return null;
             }

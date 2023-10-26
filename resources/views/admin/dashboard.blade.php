@@ -22,7 +22,7 @@
                                     <div class="card-body">
                                         <h3 class="card-title text-white">Today Orders</h3>
                                         <div class="d-inline-block">
-                                            <h2 class="text-white"> {{ $todayPurchaseCoin }} </h2>
+                                            <h2 class="text-white" id="todayPurchaseCoin"> {{ $todayPurchaseCoin }} </h2>
                                             <p class="text-white mb-0">Yesterday Orders</p>
                                             <h4 class="text-white mb-0"> {{ $yesterdayPurchaseCoin }} </h4>
                                         </div>
@@ -35,7 +35,7 @@
                                     <div class="card-body">
                                         <h3 class="card-title text-white">Today Sales</h3>
                                         <div class="d-inline-block">
-                                            <h2 class="text-white">₹ {{ $todayAmount }} </h2>
+                                            <h2 class="text-white" id="todayAmount">₹ {{ $todayAmount }} </h2>
                                             <p class="text-white mb-0">Yesterday Sales</p>
                                             <h4 class="text-white mb-0">₹ {{ $yesterdayAmount }} </h4>
                                         </div>
@@ -61,11 +61,18 @@
                                     <div class="card-body">
                                         <h3 class="card-title text-white">Today Users</h3>
                                         <div class="d-inline-block">
-                                            <h2 class="text-white"> {{ $todayUser }} </h2>
+                                            <h2 class="text-white" id="todayUser"> {{ $todayUser }} </h2>
                                             <p class="text-white mb-0"> Yesterday Users</p>
                                             <h4 class="text-white mb-0"> {{ $yesterdayUser }} </h4>
                                         </div>
                                         <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control custom_date_picker" id="date_search" name="date_search" placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd" data-date-end-date="0d"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
                                     </div>
                                 </div>
                             </div>
@@ -77,8 +84,33 @@
   
     
     @endif
-    @endsection
-    @section('js')
+@endsection
+@section('js')
     <!-- user list JS start -->
-    
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('#date_search').change(function(){
+            var date = $('#date_search').val();
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('admin/date-wise-search') }}",
+                data: { 
+                    date: date
+                },
+                success: function (res) {
+                    $('#todayPurchaseCoin').html(res.data.todayPurchaseCoin);
+                    $('#todayAmount').html(res.data.todayAmount);
+                    $('#todayUser').html(res.data.todayUser);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+    </script>
 @endsection
