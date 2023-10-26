@@ -5,11 +5,13 @@ namespace App\Exports;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 use App\Models\Agency;
 use App\Models\AgencyCoinHistory;
 use App\Models\UserCoinHistory;
 
-class HostUsersExport implements FromCollection, withHeadings
+class HostUsersExport implements FromCollection, withHeadings, WithEvents
 {
     private $tab_type, $agency_id, $coin_update, $agency;
 
@@ -19,11 +21,12 @@ class HostUsersExport implements FromCollection, withHeadings
         $this->agency_id = $agency_id;
         $this->coin_update = $coin_update;
         $this->agency = $agency;
+        $this->userCount = 0;
     }
 
     public function headings(): array
     {
-        return ['Id', 'First Name', 'Last Name', 'Email', 'Agency Name', 'Coin', 'G Coin', 'Total Coin', 'Amount'];
+        return ['Id', 'First Name', 'Last Name', 'Email', 'Agency Name', 'Status', 'Coin', 'Gift Coin', 'Total Coin', 'Amount'];
     }
 
     /**
@@ -36,6 +39,7 @@ class HostUsersExport implements FromCollection, withHeadings
         $agency_id = $this->agency_id;
         $coin_update = $this->coin_update;
         $agency = $this->agency;
+        $userCount = $this->userCount;
 
         if ($tab_type == "active_host_user_tab"){
             $estatus = 1;
@@ -85,6 +89,7 @@ class HostUsersExport implements FromCollection, withHeadings
             $user_data['last_name'] = $user->last_name;
             $user_data['email'] = $user->email;
             $user_data['agency_name'] = $agency_name;
+            $user_data['estatus'] = $user->estatus == 2 ? 'Block' : 'Active';
             $user_data['coin'] = $user->coin ?? '0';
             $user_data['g_coin'] = $user->g_coin ?? '0';
             $user_data['total_coin'] = $total_coin ?? '0';
@@ -112,6 +117,19 @@ class HostUsersExport implements FromCollection, withHeadings
         $user_data['last_name'] = '';
         $user_data['email'] = '';
         $user_data['agency_name'] = '';
+        $user_data['estatus'] = '';
+        $user_data['coin'] = '';
+        $user_data['g_coin'] = '';
+        $user_data['total_coin'] = '';
+        $user_data['amount'] = '';
+        $hostUser[] = $user_data;
+
+        $user_data['id'] = '';
+        $user_data['first_name'] = '';
+        $user_data['last_name'] = '';
+        $user_data['email'] = '';
+        $user_data['agency_name'] = '';
+        $user_data['estatus'] = '';
         $user_data['coin'] = '';
         $user_data['g_coin'] = 'Total';
         $user_data['total_coin'] = $sum_of_coin ?? '0';
@@ -124,6 +142,7 @@ class HostUsersExport implements FromCollection, withHeadings
         $user_data['last_name'] = '';
         $user_data['email'] = '';
         $user_data['agency_name'] = '';
+        $user_data['estatus'] = '';
         $user_data['coin'] = '';
         $user_data['g_coin'] = 'Minute';
         $user_data['total_coin'] = $sum_of_coin ? $sum_of_coin/100 : '0';
@@ -135,8 +154,9 @@ class HostUsersExport implements FromCollection, withHeadings
         $user_data['last_name'] = '';
         $user_data['email'] = '';
         $user_data['agency_name'] = '';
+        $user_data['estatus'] = '';
         $user_data['coin'] = '';
-        $user_data['g_coin'] = 'Commission';
+        $user_data['g_coin'] = 'Agency Commission';
         $user_data['total_coin'] = '';
         $amount_2 = $sum_of_amount ? ($sum_of_amount * 15) / 100 : '0';
         $user_data['amount'] = $amount_2;
@@ -147,8 +167,9 @@ class HostUsersExport implements FromCollection, withHeadings
         $user_data['last_name'] = '';
         $user_data['email'] = '';
         $user_data['agency_name'] = '';
+        $user_data['estatus'] = '';
         $user_data['coin'] = '';
-        $user_data['g_coin'] = 'Final Amount';
+        $user_data['g_coin'] = 'Payable Amount';
         $user_data['total_coin'] = '';
         $user_data['amount'] = $amount_1 + $amount_2;
         $hostUser[] = $user_data;
@@ -166,7 +187,71 @@ class HostUsersExport implements FromCollection, withHeadings
             $users->update(['coin' => 0, 'g_coin' => 0]);
         }
 
+        $this->userCount = count($hostUser);
         $hostUser = collect($hostUser);
         return $hostUser;
+    }
+    
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                // --------------------------------------------------------------------------
+                $rowNumber = 1; // Change this to the row number you want to format
+
+                // Set the background color for the specified row
+                $event->sheet->getDelegate()->getStyle('A' . $rowNumber . ':J' . $rowNumber)
+                    ->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()
+                    ->setARGB('9ce1e8');
+
+                // --------------------------------------------------------------------------
+                $rowNumber = $this->userCount - 2; // Change this to the row number you want to format
+
+                // Set the background color for the specified row
+                $event->sheet->getDelegate()->getStyle('H' . $rowNumber . ':J' . $rowNumber)
+                    ->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()
+                    ->setARGB('9ce1e8');
+
+                // --------------------------------------------------------------------------
+                $rowNumber = $this->userCount - 1; // Change this to the row number you want to format
+
+                // Set the background color for the specified row
+                $event->sheet->getDelegate()->getStyle('H' . $rowNumber . ':J' . $rowNumber)
+                    ->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()
+                    ->setARGB('9ce1e8');
+
+                // --------------------------------------------------------------------------
+                $rowNumber = $this->userCount; // Change this to the row number you want to format
+
+                // Set the background color for the specified row
+                $event->sheet->getDelegate()->getStyle('H' . $rowNumber . ':J' . $rowNumber)
+                    ->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()
+                    ->setARGB('9ce1e8');
+
+
+                // --------------------------------------------------------------------------
+                $rowNumber = $this->userCount + 1; // Change this to the row number you want to format
+
+                // Set the background color for the specified row
+                $event->sheet->getDelegate()->getStyle('H' . $rowNumber . ':J' . $rowNumber)
+                    ->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()
+                    ->setARGB('9ce1e8');
+            },
+        ];
     }
 }

@@ -27,7 +27,7 @@
                         </div> --}}
 
                         @if(isset($action) && $action=='list')
-                        <div class="custom-tab-1">
+                        <div class="custom-tab-1 d-flex">
                             <ul class="nav nav-tabs mb-3">
                                 <li class="nav-item host_user_page_tabs" data-tab="all_host_user_tab"><a class="nav-link active show" data-toggle="tab" href="">All</a>
                                 </li>
@@ -37,6 +37,21 @@
                                 <li class="nav-item host_user_page_tabs" data-tab="deactive_user_tab"><a class="nav-link" data-toggle="tab" href="">Deactive</a>
                                 </li>
                             </ul>
+
+                            <div class="ml-auto">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input user_key_search" type="radio" name="user_key_search" id="data_lc" value="_LC">
+                                    <label class="form-check-label" for="data_lc">LC</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input user_key_search" type="radio" name="user_key_search" id="data_nc" value="_NC">
+                                    <label class="form-check-label" for="data_nc">NC</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input user_key_search" type="radio" name="user_key_search" id="data_rm" value="_RM">
+                                    <label class="form-check-label" for="data_rm">RM</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="tab-pane fade show active table-responsive" id="all_host_user_tab">
@@ -109,6 +124,7 @@ function host_user_page_tabs(tab_type='',is_clearState=false) {
         $('#all_end_users').DataTable().state.clear();
     }
     var agency_search = $('#agency_host_user_tab').val();
+    var user_key_search = $('input[name="user_key_search"]:checked').val();
 
     $('#tab_type_export').val(tab_type);
     $('#agency_search_export').val(agency_search);
@@ -130,7 +146,7 @@ function host_user_page_tabs(tab_type='',is_clearState=false) {
             "url": "{{ url('admin/alluserlist') }}",
             "dataType": "json",
             "type": "POST",
-            "data":{ _token: '{{ csrf_token() }}' ,tab_type: tab_type, agency_search: agency_search},
+            "data":{ _token: '{{ csrf_token() }}' ,tab_type: tab_type, agency_search: agency_search, user_key_search: user_key_search},
             // "dataSrc": ""
         },
         'columnDefs': [
@@ -163,6 +179,11 @@ function host_user_page_tabs(tab_type='',is_clearState=false) {
 $(".host_user_page_tabs").click(function() {
     var tab_type = $(this).attr('data-tab');
     host_user_page_tabs(tab_type,true);
+});
+
+$(".user_key_search").click(function() {
+    var tab_type = get_end_users_page_tabType();
+    host_user_page_tabs(tab_type, true);
 });
 
 $(".host_user_page_tabs_agency").change(function() {

@@ -117,6 +117,7 @@ class EndUserController extends Controller
                 {
                     $page_id = ProjectPage::where('route_url','admin.end_users.list')->pluck('id')->first();
 
+                    $estatus = '';
                     if( $user->estatus==1 && (getUSerRole()==1 || (getUSerRole()!=1 && is_write($page_id))) ){
                         $estatus = '<label class="switch"><input type="checkbox" id="EndUserstatuscheck_'. $user->id .'" onchange="changeEndUserStatus('. $user->id .')" value="1" checked="checked"><span class="slider round"></span></label>';
                     }
@@ -466,6 +467,12 @@ class EndUserController extends Controller
                 $estatus = 2;
             }
 
+            $user_key_search = '';
+            if(isset($request->user_key_search))
+            {
+                $user_key_search = $request->user_key_search;
+            }
+
             $columns = array(
                 0=> 'id',
                 1=> 'profile_pic',
@@ -480,6 +487,10 @@ class EndUserController extends Controller
             $totalData = User::whereIn('role', ['3'])->WhereNotNull('first_name');
             if (isset($estatus)){
                 $totalData = $totalData->where('estatus',$estatus);
+            }
+
+            if ($user_key_search){
+                $totalData = $totalData->where('first_name', 'like', '%' . $user_key_search . '%');
             }
             
             $totalData = $totalData->count();
@@ -503,6 +514,11 @@ class EndUserController extends Controller
                 if (isset($estatus)){
                     $users = $users->where('estatus',$estatus);
                 }
+
+                if ($user_key_search)
+                {
+                    $users = $users->where('first_name', 'like', '%' . $user_key_search . '%');
+                }
                
                 $users = $users->offset($start)
                     ->limit($limit)
@@ -514,6 +530,11 @@ class EndUserController extends Controller
                 $users =  User::whereIn('role', ['3'])->WhereNotNull('first_name');
                 if (isset($estatus)){
                     $users = $users->where('estatus',$estatus);
+                }
+
+                if ($user_key_search)
+                {
+                    $users = $users->where('first_name', 'like', '%' . $user_key_search . '%');
                 }
                
                 $users = $users->where(function($query) use($search){
