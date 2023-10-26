@@ -97,8 +97,8 @@ class HostUsersExport implements FromCollection, withHeadings, WithEvents
             $hostUser[] = $user_data;
 
             // coin
-            $agency_total_coin += $user->coin;
-            $agency_total_g_coin += $user->g_coin;
+            $agency_total_coin += $user->estatus == 2 ? 0 : $user->coin;
+            $agency_total_g_coin += $user->estatus == 2 ? 0 : $user->g_coin;
             $sum_of_coin += $total_coin;
             $sum_of_amount += $amount;
             
@@ -209,7 +209,7 @@ class HostUsersExport implements FromCollection, withHeadings, WithEvents
                     ->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                     ->getStartColor()
-                    ->setARGB('9ce1e8');
+                    ->setARGB('2596be');
 
                 // --------------------------------------------------------------------------
                 $rowNumber = $this->userCount - 2; // Change this to the row number you want to format
@@ -219,7 +219,7 @@ class HostUsersExport implements FromCollection, withHeadings, WithEvents
                     ->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                     ->getStartColor()
-                    ->setARGB('9ce1e8');
+                    ->setARGB('2596be');
 
                 // --------------------------------------------------------------------------
                 $rowNumber = $this->userCount - 1; // Change this to the row number you want to format
@@ -229,7 +229,7 @@ class HostUsersExport implements FromCollection, withHeadings, WithEvents
                     ->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                     ->getStartColor()
-                    ->setARGB('9ce1e8');
+                    ->setARGB('2596be');
 
                 // --------------------------------------------------------------------------
                 $rowNumber = $this->userCount; // Change this to the row number you want to format
@@ -239,7 +239,7 @@ class HostUsersExport implements FromCollection, withHeadings, WithEvents
                     ->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                     ->getStartColor()
-                    ->setARGB('9ce1e8');
+                    ->setARGB('2596be');
 
 
                 // --------------------------------------------------------------------------
@@ -250,7 +250,7 @@ class HostUsersExport implements FromCollection, withHeadings, WithEvents
                     ->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                     ->getStartColor()
-                    ->setARGB('9ce1e8');
+                    ->setARGB('2596be');
             },
         ];
     }
